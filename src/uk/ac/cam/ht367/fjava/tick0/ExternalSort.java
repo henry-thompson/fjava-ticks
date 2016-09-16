@@ -1,5 +1,10 @@
 package uk.ac.cam.ht367.fjava.tick0;
 
+import uk.ac.cam.ht367.fjava.tick0.io.FileInputStreamFactory;
+import uk.ac.cam.ht367.fjava.tick0.io.FileOutputStreamFactory;
+import uk.ac.cam.ht367.fjava.tick0.strategies.QuicksortStrategy;
+import uk.ac.cam.ht367.fjava.tick0.strategies.ISortingStrategy;
+
 import java.security.MessageDigest;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -8,12 +13,15 @@ import java.security.NoSuchAlgorithmException;
 
 public class ExternalSort {
 
-    public static void sort(String f1, String f2) throws IOException {
-        //TODO: Complete this method
+    private static final ISortingStrategy mSortStrategy = new QuicksortStrategy(new FileInputStreamFactory(), new FileOutputStreamFactory());
+
+    public static void sort(String filepath1, String filepath2) throws IOException {
+        mSortStrategy.sort(filepath1, filepath2);
     }
 
     private static String byteToHex(byte b) {
         String r = Integer.toHexString(b);
+
         if (r.length() == 8) {
             return r.substring(6);
         }
@@ -25,10 +33,15 @@ public class ExternalSort {
             MessageDigest md = MessageDigest.getInstance("MD5");
             DigestInputStream ds = new DigestInputStream(new FileInputStream(f), md);
 
+            for (int i = 0; i < 5; i++) {
+                ds.read();
+            }
+
             byte[] b = new byte[512];
             while (ds.read(b) != -1);
 
             String computed = "";
+
             for (byte v : md.digest()) {
                 computed += byteToHex(v);
             }
@@ -43,11 +56,14 @@ public class ExternalSort {
     }
 
     public static void main(String[] args) throws Exception {
-        String f1 = args[0];
-        String f2 = args[1];
+        String filepath1 = args[0];
+        String filepath2 = args[1];
 
-        sort(f1, f2);
+        System.out.println(filepath1);
+        System.out.println(filepath2);
 
-        System.out.println("The checksum is: "+checkSum(f1));
+        sort(filepath1, filepath2);
+
+        System.out.println("The checksum is: " + checkSum(filepath1));
     }
 }
