@@ -1,9 +1,9 @@
 package uk.ac.cam.ht367.fjava.tick0;
 
-import uk.ac.cam.ht367.fjava.tick0.io.FileInputStreamFactory;
-import uk.ac.cam.ht367.fjava.tick0.io.FileOutputStreamFactory;
-import uk.ac.cam.ht367.fjava.tick0.strategies.QuicksortStrategy;
+import uk.ac.cam.ht367.fjava.tick0.io.IntArrayFileFactory;
+import uk.ac.cam.ht367.fjava.tick0.strategies.MergeSortStrategy;
 import uk.ac.cam.ht367.fjava.tick0.strategies.ISortingStrategy;
+import uk.ac.cam.ht367.fjava.tick0.strategies.QuickMergeSortStrategy;
 
 import java.security.MessageDigest;
 import java.io.FileInputStream;
@@ -13,7 +13,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class ExternalSort {
 
-    private static final ISortingStrategy mSortStrategy = new QuicksortStrategy(new FileInputStreamFactory(), new FileOutputStreamFactory());
+    private static final ISortingStrategy mSortStrategy = new QuickMergeSortStrategy(new IntArrayFileFactory());
 
     public static void sort(String filepath1, String filepath2) throws IOException {
         mSortStrategy.sort(filepath1, filepath2);
