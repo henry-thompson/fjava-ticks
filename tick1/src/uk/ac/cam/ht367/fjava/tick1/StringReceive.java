@@ -42,7 +42,9 @@ public class StringReceive {
         try {
             final Socket socket = new ProgramArgumentsParser().getSocketFromArguments(args);
             new StringReceive(socket.getInputStream()).readServerOutputForever();
-        } catch (IOException | IllegalArgumentException e) {
+        } catch (IOException e) {
+            System.err.println("Cannot connect to " + args[0] + " on port " + args[1]);
+        } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
     }

@@ -25,7 +25,7 @@ public class ProgramArgumentsParser {
         try {
             port = Integer.parseInt(args[1]);
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Second argument is not a valid port number.");
+            throw new IllegalArgumentException("This application requires two arguments: <machine> <port>");
         }
 
         return new Socket(host, port);
